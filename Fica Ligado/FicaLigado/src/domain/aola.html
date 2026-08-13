@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <p id="demo"></p>
+</head>
+<body>
+    <script>
+        const json='{"nome":"Arthur Leonnaro", "idade":16, "data":"25/05/2010"}'
+        const obj =JSON.parse(json)
+
+        document.getElementById("demo").innerHTML = obj.nome + " tem " + obj.idade + " anos e nasceu no dia " + obj.data;
+    </script>
+</body>
+</html>
