@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "377833971453",
+    "project_id": "ifala-c2710",
+    "storage_bucket": "ifala-c2710.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:377833971453:android:ef335b3213b5e0de55e894",
+        "android_client_info": {
+          "package_name": "br.edu.iftm.clara"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "377833971453-ec2ihtqa3cvdslda2c75429e7m7opurl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBAUSsNC5pUXvltaOFE-LKpVHNO1rbWF3s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "377833971453-ec2ihtqa3cvdslda2c75429e7m7opurl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
