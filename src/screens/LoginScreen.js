@@ -12,15 +12,17 @@
  * ---------------------------------------------------------------------------
  */
 import { useState } from "react";
-import { View, Text, ActivityIndicator, StyleSheet } from "react-native";
+import { View, Text, ActivityIndicator, ImageBackground, StyleSheet } from "react-native";
 import { GoogleSigninButton } from "@react-native-google-signin/google-signin";
 
 import { entrarComGoogle, descreverErro } from "../services/autenticacao";
+import fundo from "../../assets/fundo.png";
 
 const LoginScreen = () => {
+  console.log("LoginScreen renderizou");
   const [carregando, setCarregando] = useState(false);
   const [erro, setErro] = useState(null);
-
+  console.log("erro: ", erro);
   const aoPressionar = async () => {
     setErro(null);
     setCarregando(true);
@@ -30,7 +32,7 @@ const LoginScreen = () => {
       // Se deu certo, não fazemos nada aqui: o onAuthStateChanged assume.
       // Se o usuário cancelou, também não fazemos nada -- ele continua na tela.
     } catch (e) {
-      console.log("Falha no login:", e);
+      console.log("catch: ", e);
       setErro(descreverErro(e));
     } finally {
       // O finally garante que o indicador SEMPRE é desligado, tenha o login
@@ -41,29 +43,28 @@ const LoginScreen = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.titulo}>Minha Agenda</Text>
-      <Text style={styles.subtitulo}>Entre para continuar</Text>
+    <ImageBackground source={fundo} style={styles.container} resizeMode="cover">
+      <View style={styles.overlay}>
+        {/*
+          GoogleSigninButton é o botão oficial. Além de pronto, ele atende às
+          diretrizes de marca do Google, exigidas para publicar na loja.
+          O disabled evita o erro IN_PROGRESS por toque duplo.
+        */}
+        <GoogleSigninButton
+          style={styles.botaoGoogle}
+          size={GoogleSigninButton.Size.Wide}
+          color={GoogleSigninButton.Color.Dark}
+          onPress={aoPressionar}
+          disabled={carregando}
+        />
 
-      {/*
-        GoogleSigninButton é o botão oficial. Além de pronto, ele atende às
-        diretrizes de marca do Google, exigidas para publicar na loja.
-        O disabled evita o erro IN_PROGRESS por toque duplo.
-      */}
-      <GoogleSigninButton
-        style={styles.botaoGoogle}
-        size={GoogleSigninButton.Size.Wide}
-        color={GoogleSigninButton.Color.Dark}
-        onPress={aoPressionar}
-        disabled={carregando}
-      />
-
-      {/* Área reservada com altura fixa: evita a tela "pular" ao aparecer. */}
-      <View style={styles.areaAviso}>
-        {carregando && <ActivityIndicator />}
-        {erro && <Text style={styles.erro}>{erro}</Text>}
+        {/* Área reservada com altura fixa: evita a tela "pular" ao aparecer. */}
+        <View style={styles.areaAviso}>
+          {carregando && <ActivityIndicator />}
+          {erro && <Text style={styles.erro}>{erro}</Text>}
+        </View>
       </View>
-    </View>
+    </ImageBackground>
   );
 };
 
@@ -72,9 +73,12 @@ export default LoginScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  overlay: {
+    flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#fff",
+    backgroundColor: "rgba(255, 255, 255, 0.22)",
     padding: 24,
   },
   titulo: {
@@ -92,11 +96,15 @@ const styles = StyleSheet.create({
     height: 48,
   },
   areaAviso: {
-    height: 48,
+    minHeight: 56,
+    width: "100%",
     justifyContent: "center",
   },
   erro: {
+    backgroundColor: "rgba(255, 255, 255, 0.9)",
+    borderRadius: 6,
     color: "#c62828",
+    padding: 8,
     textAlign: "center",
   },
 });

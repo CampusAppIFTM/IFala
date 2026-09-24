@@ -20,16 +20,8 @@
  * própria, porque o token do Firebase pode ser verificado no servidor.
  * ---------------------------------------------------------------------------
  */
-import {
-  GoogleSignin,
-  statusCodes,
-} from "@react-native-google-signin/google-signin";
-import {
-  GoogleAuthProvider,
-  signInWithCredential,
-  signOut,
-  onAuthStateChanged,
-} from "firebase/auth";
+import { GoogleSignin, statusCodes } from "@react-native-google-signin/google-signin";
+import { GoogleAuthProvider, signInWithCredential, signOut, onAuthStateChanged } from "firebase/auth";
 
 import { auth } from "../../firebaseConfig";
 
@@ -94,14 +86,18 @@ export async function entrarComGoogle() {
 
   if (!idToken) {
     // Quase sempre significa webClientId ausente ou incorreto.
-    throw new Error(
-      "O Google não devolveu o idToken. Verifique o webClientId informado em configurarGoogleSignin()."
-    );
+    throw new Error("O Google não devolveu o idToken. Verifique o webClientId informado em configurarGoogleSignin().");
+  }
+
+  const email = resposta.data?.user?.email;
+  const dominio = email?.split("@")[1];
+  if (dominio !== "aluno.iftm.edu.br" && dominio !== "iftm.edu.br") {
+    sair(); // força logout do Google, para não deixar a conta "presa" no dispositivo
+    throw new Error("O domínio do e-mail não é permitido. Use um e-mail institucional.");
   }
 
   const credencial = GoogleAuthProvider.credential(idToken);
   await signInWithCredential(auth, credencial);
-
   return { cancelado: false };
 }
 
